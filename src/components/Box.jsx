@@ -11,16 +11,18 @@ export function Card(props){
     })
     const [loading, setLoading] = useState(true)
 
+    
     useEffect(()=>{
         fetch(`https://pokeapi.co/api/v2/pokemon/${props.namePokemon}`)
         .then((e)=>{return e.json()})
         .then((e)=>{
             setLoading(false)
-          setValueAPI({
-            name: e.forms[0].name,
-            id: e.id,
-            type: e.types
-          })
+            setValueAPI({
+                name: e.forms[0].name,
+                id: e.id,
+                type: e.types
+            })
+            console.log(props);
         })
     },[props])
 
@@ -83,11 +85,11 @@ export function Card(props){
         <>
             {
                 loading ? <div className="progress"></div> : (
-                    <div className="max-w-[256px] w-full h-80 flex flex-col justify-end" key={valueAPI.id}>
+                    <div className="max-w-[256px] w-full h-80 flex flex-col justify-end relative " key={valueAPI.id}>
                         <div className={`h-1/2 ${color} rounded-t-lg`}>
                             <img 
                                 src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${valueAPI.id}.png`} 
-                                className="-translate-y-28"
+                                className="-translate-y-28 z-30"
                             />
                         </div>
                         <div className="h-24 bg-white px-6 py-3 flex flex-col justify-between rounded-b-lg">
@@ -97,7 +99,7 @@ export function Card(props){
                             </div>
 
                             <div className="flex items-center">
-                                <span>Tipo: </span>
+                                <span>Type: </span>
                                 <div className="flex gap-2 ml-4">
                                     {
                                         valueAPI.type.map((e,s)=>{
@@ -111,7 +113,37 @@ export function Card(props){
                 )
             }
         </>
+    )
+}
 
-        // <h1>{props.namePokemon}</h1>
+export function Search(){
+    const [pokemon, setPokemon] = useState('')
+
+    function searchPokemon(){
+        console.log(pokemon);
+        fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
+        .then((e)=>{return e.json()})
+        .then((e)=>{
+            console.log(e);
+        })
+        .catch(()=>{
+            console.log("ops");
+        })
+    }
+
+    return(
+        <div className="w-full flex justify-center">
+            <input 
+                type="text" 
+                className="px-4 py-1 rounded-tl-lg rounded-bl-lg focus:outline-none"
+                onChange={(e)=>{setPokemon(e.target.value);}}
+                value={pokemon}
+            />
+            <button 
+                type="button" 
+                className="bg-blue-600 rounded-tr-lg rounded-br-lg px-3 text-white font-bold"
+                onClick={()=>{searchPokemon()}}
+            >Buscar</button>
+        </div>
     )
 }

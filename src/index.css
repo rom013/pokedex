@@ -6,8 +6,15 @@
 body{
   @apply bg-gray-100
 }
-
-
+.button-generation{
+   @apply py-4 px-6 min-w-[16rem] bg-white rounded-lg flex flex-col gap-3
+}
+.button-generation span{
+   @apply text-lg
+}
+.button-generation img{
+   @apply w-[16rem] h-16 object-contain
+}
 .progress {
    height: 4.5px;
    width: 145.6px;
@@ -31,4 +38,21 @@ body{
    100% {
       background-position: 250% 0, 250% 0;
    }
+}
+
+
+#ge::-webkit-scrollbar {
+   width: 12px;
+}
+#ge:hover::-webkit-scrollbar-thumb{
+   background: #808080;
+}
+#ge::-webkit-scrollbar-track {
+   background: rgb(243 244 246);
+}
+
+#ge::-webkit-scrollbar-thumb {
+   background-color: transparent;
+   border-radius: 10px;
+   border: 6px solid rgb(243 244 246);
 }

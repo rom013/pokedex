@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
-import { Card } from "./components/Box"
+import { Search, Card } from "./components/Box"
+import ButtonGeneration from "./components/Btn"
 function App() {
 
   const generationList = [
-    "?offset=0&limit=151",
-    "?offset=151&limit=100",
+    "?offset=0&limit=151", //?offset=0&limit=151
+    "?offset=151&limit=100", //?offset=151&limit=100
     "?offset=251&limit=134",
     "?offset=386&limit=106",
     "?offset=493&limit=155",
@@ -13,54 +14,69 @@ function App() {
   const [pokemon, setPokemon] = useState([])
   const [generation, setGeneration] = useState(0)
   const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState(false)
 
-  useEffect(()=>{
-    fetch(`https://pokeapi.co/api/v2/pokemon/${generationList[generation]}`)
+  function fetchPokemon(c){
+    fetch(`https://pokeapi.co/api/v2/pokemon/${generationList[c]}`)
     .then((e)=>{return e.json()})
     .then((e)=>{
-      setLoading(false)
       setPokemon(e.results)
+      setLoading(false)
+      setGeneration
     })
-  },[generation])
-  
+  }
   return (
     <>
-
-      <button onClick={()=>{setGeneration(0)}} className="w-20 h-20 bg-red-500 z-50">1</button>
-      <button onClick={()=>{setGeneration(1)}} className="w-20 h-20 bg-red-500 z-50">2</button>
-      <button onClick={()=>{setGeneration(2)}} className="w-20 h-20 bg-red-500 z-50">3</button>
-      <button onClick={()=>{setGeneration(3)}} className="w-20 h-20 bg-red-500 z-50">4</button>
-      <button onClick={()=>{setGeneration(4)}} className="w-20 h-20 bg-red-500 z-50">5</button>
-
+      <Search/>
+      <section className="flex flex-col max-w-7xl mx-auto">
+        <h3 className="font-bold text-2xl mb-4">GERAÇÕES</h3>
+        <div className="flex gap-5 overflow-auto px-8 pb-5" id="ge">
+          <ButtonGeneration img={"./generation_1.png"} generation={1} clicka={fetchPokemon}/>
+          <ButtonGeneration img={"./generation_2.webp"} generation={2} clicka={fetchPokemon}/>
+          <ButtonGeneration img={"./generation_3.webp"} generation={3} clicka={fetchPokemon}/>
+          <ButtonGeneration img={"./generation_4.png"} generation={4} clicka={fetchPokemon}/>
+          <ButtonGeneration img={"./generation_5.png"} generation={5} clicka={fetchPokemon}/>          
+        </div>
+      </section>
+      
       <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-y-20 max-w-7xl mx-auto justify-items-center mt-28 gap-x-5">
         {
-          loading ? <div className="col-span-4">Carregando ...</div> : null
-        }
-        
-        {
-          generation === 0 && pokemon.map((e,a)=>{
-            return <Card namePokemon={e.name}/>
-          })
+          loading && <div className="col-span-4">Carregando ...</div>
         }
         {
-          generation === 1 && pokemon.map((e)=>{
-            return <Card namePokemon={e.name}/>
-          })
+          generation == 0 && (
+            pokemon.map((e)=>{
+              return <Card namePokemon={e.name}/>
+            })
+          )
         }
         {
-          generation === 2 && pokemon.map((e)=>{
-            return <Card namePokemon={e.name}/>
-          })
+          generation === 1 && (
+            pokemon.map((e)=>{
+              return <Card namePokemon={e.name}/>
+            })
+          )
         }
         {
-          generation === 3 && pokemon.map((e)=>{
-            return <Card namePokemon={e.name}/>
-          })
+          generation === 2 && (
+            pokemon.map((e)=>{
+              return <Card namePokemon={e.name}/>
+            })
+          )
         }
         {
-          generation === 4 && pokemon.map((e)=>{
-            return <Card namePokemon={e.name}/>
-          })
+          generation === 3 && (
+            pokemon.map((e)=>{
+              return <Card namePokemon={e.name}/>
+            })
+          )
+        }
+        {
+          generation === 4 && (
+            pokemon.map((e)=>{
+              return <Card namePokemon={e.name}/>
+            })
+          )
         }
       </main>
     </>
