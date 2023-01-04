@@ -57,7 +57,7 @@ export default function Type(props){
     }
 
     return (
-        <div className={`rounded-full flex items-center justify-center h-5 px-2 ${color}`}>
+        <div className={`rounded-full flex items-center justify-center h-5 px-2 ${color}`} >
             <span className={`text-xs capitalize text-white font-bold`}>
                 {props.type}
             </span>

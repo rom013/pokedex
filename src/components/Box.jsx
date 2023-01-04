@@ -22,7 +22,6 @@ export function Card(props){
                 id: e.id,
                 type: e.types
             })
-            console.log(props);
         })
     },[props])
 
@@ -85,14 +84,14 @@ export function Card(props){
         <>
             {
                 loading ? <div className="progress"></div> : (
-                    <div className="max-w-[256px] w-full h-80 flex flex-col justify-end relative " key={valueAPI.id}>
+                    <div className="max-w-[256px] w-full h-80 flex flex-col justify-end relative">
                         <div className={`h-1/2 ${color} rounded-t-lg`}>
                             <img 
                                 src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${valueAPI.id}.png`} 
-                                className="-translate-y-28 z-30"
+                                className="-translate-y-28 z-30 drop-shadow-md"
                             />
                         </div>
-                        <div className="h-24 bg-white px-6 py-3 flex flex-col justify-between rounded-b-lg">
+                        <div className="min-h-24 bg-white px-6 py-3 flex flex-col justify-between gap-y-2 rounded-b-lg">
                             <div className="flex justify-between items-center">
                                 <span className="text-2xl font-bold capitalize">{valueAPI.name}</span>
                                 <span className="text-gray-400">#{valueAPI.id}</span>
@@ -102,8 +101,8 @@ export function Card(props){
                                 <span>Type: </span>
                                 <div className="flex gap-2 ml-4">
                                     {
-                                        valueAPI.type.map((e,s)=>{
-                                            return <Type type={e.type.name}/>
+                                        valueAPI.type.map((e, key)=>{
+                                            return <Type type={e.type.name} key={key}/>
                                         })
                                     }
                                 </div>
@@ -116,34 +115,48 @@ export function Card(props){
     )
 }
 
-export function Search(){
-    const [pokemon, setPokemon] = useState('')
+export function Search(props){
+    const [pokemon, setPokemon] = useState([])
+    const [searchError, setSearchError] = useState(false)
 
     function searchPokemon(){
-        console.log(pokemon);
+        props.loading(true)
+        
         fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
         .then((e)=>{return e.json()})
         .then((e)=>{
-            console.log(e);
+            setSearchError(false)
+            props.searchPokemon([{name: e.name}])
+            setPokemon('')
         })
         .catch(()=>{
-            console.log("ops");
+            setSearchError(true)
+        })
+        .finally(()=>{
+            props.loading(false)
         })
     }
 
     return(
-        <div className="w-full flex justify-center">
-            <input 
-                type="text" 
-                className="px-4 py-1 rounded-tl-lg rounded-bl-lg focus:outline-none"
-                onChange={(e)=>{setPokemon(e.target.value);}}
-                value={pokemon}
-            />
-            <button 
-                type="button" 
-                className="bg-blue-600 rounded-tr-lg rounded-br-lg px-3 text-white font-bold"
-                onClick={()=>{searchPokemon()}}
-            >Buscar</button>
+        <div className="w-full flex items-center flex-col my-8 px-6">
+            <div className="flex">
+                <input 
+                    type="text" 
+                    className={`px-4 py-1 rounded-tl-lg rounded-bl-lg focus:outline-none border ${searchError ? "border-red-600 bg-red-200" : "border-transparent bg-white"}`}
+                    onChange={(e)=>{setPokemon(e.target.value.toLowerCase())}}
+                    onKeyUp={(e)=>{e.key === 'Enter' && searchPokemon()}}
+                    value={pokemon}
+                    placeholder="Ex.: Zekrom ou 644"
+                />
+                <button 
+                    type="button" 
+                    className="bg-blue-600 rounded-tr-lg rounded-br-lg px-3 text-white font-bold flex-1"
+                    onClick={()=>{searchPokemon()}}
+                >Buscar</button>
+            </div>
+            {
+                searchError && <span className="text-red-700 text-xs">Ops! Não foi possível encontrar o seu pokémon</span>
+            }
         </div>
     )
 }

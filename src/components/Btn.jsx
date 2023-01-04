@@ -1,6 +1,6 @@
 export default function ButtonGeneration(props){
     return(
-        <>  
+        <div className="snap-always snap-center">  
             <input type="radio" name="generation" id={props.generation}
                 onChange={()=>{props.clicka(props.generation - 1)}} 
                 className="hidden"
@@ -9,6 +9,6 @@ export default function ButtonGeneration(props){
                 <span>{props.generation}° Geração</span>
                 <img src={props.img}/>
             </label>
-        </>
+        </div>
     )
 }
