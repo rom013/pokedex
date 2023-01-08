@@ -1,9 +1,10 @@
 import Type from "./Types"
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import color from '../color.json'
 
 export function Card(props){
-    let color = ""
-
+    const navigate = useNavigate()
     const [valueAPI, setValueAPI] = useState({
         name: "",
         id: 0,
@@ -11,7 +12,6 @@ export function Card(props){
     })
     const [loading, setLoading] = useState(true)
 
-    
     useEffect(()=>{
         fetch(`https://pokeapi.co/api/v2/pokemon/${props.namePokemon}`)
         .then((e)=>{return e.json()})
@@ -25,73 +25,82 @@ export function Card(props){
         })
     },[props])
 
+
+    let colorTheme = {"background": ""}
+
     if(valueAPI.type[0].type.name == "grass"){
-        color = "bg-[#3BE100]"
+        colorTheme.background = color.theme.colors.grass
     }
     else if(valueAPI.type[0].type.name == "ground"){
-        color = "bg-[#C18A49]"
+        colorTheme.background = color.theme.colors.ground
     }
     else if(valueAPI.type[0].type.name == "psychic"){
-        color = "bg-[#A1007E]"
+        colorTheme.background = color.theme.colors.psychic
     }
     else if(valueAPI.type[0].type.name == "fairy"){
-        color = "bg-[#FF00E5]"
+        colorTheme.background = color.theme.colors.fairy
     }
     else if(valueAPI.type[0].type.name == "fighting"){
-        color = "bg-[#B42201]"
+        colorTheme.background = color.theme.colors.fighting
     }
     else if(valueAPI.type[0].type.name == "poison"){
-        color = "bg-[#6600B6]"
+        colorTheme.background = color.theme.colors.poison
     }
     else if(valueAPI.type[0].type.name == "bug"){
-        color = "bg-[#ADFF00]"
+        colorTheme.background = color.theme.colors.bug
     }
     else if(valueAPI.type[0].type.name == "rock"){
-        color = "bg-[#C37500]"
+        colorTheme.background = color.theme.colors.rock
     }
     else if(valueAPI.type[0].type.name == "ghost"){
-        color = "bg-[#280543]"
+        colorTheme.background = color.theme.colors.ghost
     }
     else if(valueAPI.type[0].type.name == "steel"){
-        color = "bg-[#989898]"
+        colorTheme.background = color.theme.colors.steel
     }
     else if(valueAPI.type[0].type.name == "normal"){
-        color = "bg-[#D9D9D9]"
+        colorTheme.background = color.theme.colors.normal
     }
     else if(valueAPI.type[0].type.name == "flying"){
-        color = "bg-[#00E1B9]"
+        colorTheme.background = color.theme.colors.flying
     }
     else if(valueAPI.type[0].type.name == "fire"){
-        color = "bg-[#E13600]"
+        colorTheme.background = color.theme.colors.fire
     }
     else if(valueAPI.type[0].type.name == "water"){
-        color = "bg-[#0083E1]"
+        colorTheme.background = color.theme.colors.water
     }
     else if(valueAPI.type[0].type.name == "electric"){
-        color = "bg-[#FAFF00]"
+        colorTheme.background = color.theme.colors.electric
     }
     else if(valueAPI.type[0].type.name == "ice"){
-        color = "bg-[#90E4FF]"
+        colorTheme.background = color.theme.colors.ice
     }
     else if(valueAPI.type[0].type.name == "dragon"){
-        color = "bg-[#3A389F]"
+        colorTheme.background = color.theme.colors.dragon
     }
     else if(valueAPI.type[0].type.name == "dark"){
-        color = "bg-[#291D2D]"
+        colorTheme.background = color.theme.colors.dark
     }
 
     return (
         <>
             {
                 loading ? <div className="progress"></div> : (
-                    <div className="max-w-[256px] w-full h-80 flex flex-col justify-end relative">
-                        <div className={`h-1/2 ${color} rounded-t-lg`}>
+                    <div 
+                        className="max-w-[256px] w-full h-80 flex flex-col justify-end relative cursor-pointer group"
+                        onClick={()=>navigate(`/data/${valueAPI.name}`)}
+                    >
+                        <div 
+                            className={`h-1/2 rounded-t-lg`}
+                            style={colorTheme}
+                        >
                             <img 
                                 src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${valueAPI.id}.png`} 
-                                className="-translate-y-28 z-30 drop-shadow-md"
+                                className="-translate-y-28 z-30 drop-shadow-md md:group-hover:scale-110 transition"
                             />
                         </div>
-                        <div className="min-h-24 bg-white px-6 py-3 flex flex-col justify-between gap-y-2 rounded-b-lg">
+                        <div className="min-h-24 bg-white px-6 py-3 flex flex-col justify-between gap-y-2 rounded-b-lg shadow-shadow-card">
                             <div className="flex justify-between items-center">
                                 <span className="text-2xl font-bold capitalize">{valueAPI.name}</span>
                                 <span className="text-gray-400">#{valueAPI.id}</span>
@@ -142,7 +151,7 @@ export function Search(props){
             <div className="flex">
                 <input 
                     type="text" 
-                    className={`px-4 py-1 rounded-tl-lg rounded-bl-lg focus:outline-none border ${searchError ? "border-red-600 bg-red-200" : "border-transparent bg-white"}`}
+                    className={`px-4 py-3 md:w-96 border-gray-400 rounded-tl-lg rounded-bl-lg focus:outline-none border ${searchError ? "border-red-600 bg-red-200" : "border-transparent bg-white"}`}
                     onChange={(e)=>{setPokemon(e.target.value.toLowerCase())}}
                     onKeyUp={(e)=>{e.key === 'Enter' && searchPokemon()}}
                     value={pokemon}
@@ -150,7 +159,7 @@ export function Search(props){
                 />
                 <button 
                     type="button" 
-                    className="bg-blue-600 rounded-tr-lg rounded-br-lg px-3 text-white font-bold flex-1"
+                    className="hover:bg-blue-700 bg-blue-500 transition rounded-tr-lg rounded-br-lg px-3 text-white font-bold flex-1"
                     onClick={()=>{searchPokemon()}}
                 >Buscar</button>
             </div>
