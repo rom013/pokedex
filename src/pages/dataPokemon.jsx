@@ -3,14 +3,17 @@ import { useNavigate, useParams } from "react-router-dom"
 import Type from "../components/Types"
 import color from "../color.json"
 import { ArrowArcLeft } from "phosphor-react"
+import SwitchComponent from "../components/Switch"
+import Footer from "../components/Footer"
 
 export default function DataPokemon() {
 
     const { name } = useParams()
     const navigate = useNavigate()
 
+    const [darkMode, setDarkMode] = useState(false)
     const [typePokemon, setTypePokemon] = useState()
-    const colorTheme = {"background":color.theme.colors[typePokemon]}
+    const colorTheme = {"background":color.theme.colors.gradient[typePokemon]}
 
     const [pokemon, setPokemon] = useState(
         {
@@ -44,18 +47,25 @@ export default function DataPokemon() {
         )
     }, [])
 
+    useEffect(()=>{
+        document.title = `Pokedex - ${pokemon.name}`
+    },[pokemon])
+
     return (
-        <>
+        <main className={`${darkMode && "dark"}`}>
             <header 
                 className="w-full md:min-h-[400px] md:h-fit flex justify-center flex-col"
                 style={colorTheme}    
             >
-                <button 
-                    className="rounded-full w-10 h-10 opacity-30 hover:opacity-100 transition bg-gray-200 flex items-center justify-center ml-6 mt-5"
-                    onClick={()=>{navigate('/')}}
-                >
-                    <ArrowArcLeft size={24}/>
-                </button>
+                <div className="flex items-center justify-between max-w-6xl mx-auto w-full px-8 py-4">
+                    <button 
+                        className="rounded-full w-10 h-10 opacity-30 hover:opacity-100 transition bg-gray-200 flex items-center justify-center"
+                        onClick={()=>{navigate('/')}}
+                    >
+                        <ArrowArcLeft size={24}/>
+                    </button>
+                    <SwitchComponent mode={setDarkMode} stats={darkMode}/>
+                </div>
                 <section className="max-w-5xl mx-auto flex-1 p-8">
                     <div className="bg-black/40 md:px-16 py-4 flex flex-col md:flex-row justify-between gap-6 items-center rounded-lg">
                         <div className="flex flex-col items-center">
@@ -85,26 +95,29 @@ export default function DataPokemon() {
                     </div>
                 </section>
             </header>
-            <main className="max-w-7xl mx-auto p-6">
-                <section>
-                    <h3 className="text-2xl font-bold mb-6">Status</h3>
-                    <table className="text-white w-1/2 min-w-[250px] max-w-xl mx-auto px-6">
-                        <tbody className="bg-gray-800">
+            <div className="dark:bg-slate-900">
+                <main className="max-w-7xl mx-auto p-6 pb-20">
+                    <section>
+                        <h3 className="text-2xl font-bold mb-6 dark:text-white">Status</h3>
+                        <table className="text-white w-1/2 min-w-[250px] max-w-xl mx-auto px-6">
+                            <tbody className="bg-gray-800 border dark:border-white">
 
-                            {
-                                pokemon.stats.map((e)=>{
-                                    return (
-                                        <tr className="w-full border border-b-slate-400">
-                                            <td className="px-6 py-3 capitalize">{e.stat.name}</td>
-                                            <td className="px-6 py-3">{e.base_stat}</td>
-                                        </tr>
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </table>
-                </section>
-            </main>
-        </>
+                                {
+                                    pokemon.stats.map((e)=>{
+                                        return (
+                                            <tr className="w-full border border-b-slate-400">
+                                                <td className="px-6 py-3 capitalize">{e.stat.name}</td>
+                                                <td className="px-6 py-3">{e.base_stat}</td>
+                                            </tr>
+                                        )
+                                    })
+                                }
+                            </tbody>
+                        </table>
+                    </section>
+                </main>
+                <Footer/>
+            </div>
+        </main>
     )
 }

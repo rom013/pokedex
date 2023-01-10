@@ -18,7 +18,28 @@
             "electric": "#ffc300",
             "ice": "#90E4FF",
             "dragon": "#3A389F",
-            "dark": "#291D2D"
+            "dark": "#291D2D",
+
+            "gradient":{
+                "grass" : "radial-gradient(41.6% 65.8% at 50% 50%, #ADEB97 0%, #3BE100 100%)",
+                "ground": "radial-gradient(41.6% 65.8% at 50% 50%, #EDC596 0%, #C18A49 100%)",
+                "psychic": "radial-gradient(41.6% 65.8% at 50% 50%, #F846D1 0%, #A1007E 100%)",
+                "fairy": "radial-gradient(41.6% 65.8% at 50% 50%, rgba(253, 173, 245, 0.937255) 0%, #FF00E5 100%)",
+                "fighting": "radial-gradient(41.6% 65.8% at 50% 50%, #E2674A 0%, #AE2101 100%)",
+                "poison": "radial-gradient(41.6% 65.8% at 50% 50%, #BC66FF 0%, #6600B6 100%)",
+                "bug": "radial-gradient(41.6% 65.8% at 50% 50%, #7DCDDF 0%, #DBF0AD 0.01%, #ADFF00 100%)",
+                "rock": "radial-gradient(41.6% 65.8% at 50% 50%, #E4B978 0%, #C37500 100%)",
+                "ghost": "radial-gradient(41.6% 65.8% at 50% 50%, #55098E 0%, #280543 100%)",
+                "steel": "radial-gradient(41.6% 65.8% at 50% 50%, #D6A8FB 0%, #989898 100%)",
+                "normal": "radial-gradient(41.6% 65.8% at 50% 50%, #FFFFFF 0%, #C5CDC3 100%)",
+                "flying": "radial-gradient(41.6% 65.8% at 50% 50%, rgba(171, 248, 234, 0.937255) 0%, #00E1B9 100%)",
+                "fire": "radial-gradient(41.6% 65.8% at 50% 50%, #FDA88D 0%, #E13600 100%)",
+                "water": "radial-gradient(41.6% 65.8% at 50% 50%, #7DCDDF 0%, #0049B6 100%)",
+                "electric": "radial-gradient(41.6% 65.8% at 50% 50%, #E5E78E 0%, #FAFF00 100%)",
+                "ice": "radial-gradient(41.6% 65.8% at 50% 50%, #3AB2D9 0%, #90E4FF 100%)",
+                "dragon": "radial-gradient(41.6% 65.8% at 50% 50%, #6F6EC1 0%, #3A389F 100%)",
+                "dark": "radial-gradient(41.6% 65.8% at 50% 50%, #412D55 0%, #291D2D 100%)"
+            }
         }
     }
 }

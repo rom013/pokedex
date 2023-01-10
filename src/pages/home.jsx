@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react"
 import { Search, Card } from "../components/Box"
 import ButtonGeneration from "../components/Btn"
+import SwitchComponent from "../components/Switch"
 
 import { ArrowUp } from "phosphor-react"
+import Footer from "../components/Footer"
 
 
 export default function Home() {
@@ -18,11 +20,14 @@ export default function Home() {
     ]
 
     const mainDiv = useRef()
+    const [darkMode, setDarkMode] = useState(false)
+
     const [pokemon, setPokemon] = useState([])
     const [generation, setGeneration] = useState(0)
     const [loading, setLoading] = useState(true)
 
     function fetchPokemonGeneration(c) {
+        document.title = `Pokedex`
         fetch(`https://pokeapi.co/api/v2/pokemon/${generationList[c]}`)
             .then((e) => { return e.json() })
             .then((e) => {
@@ -37,45 +42,52 @@ export default function Home() {
         console.log("Ok");
     }, [])
     return (
-        <div ref={mainDiv}>
-            <Search searchPokemon={setPokemon} loading={setLoading} />
-            <button
-                className="w-10 h-10 fixed right-10 bottom-10 z-50 bg-red-400 rounded-full flex justify-center items-center text-white"
-                onClick={() => {
-                    mainDiv.current.scrollIntoView({ behavior: "smooth" })
-                }}
-            >
-                <ArrowUp size={32} />
-            </button>
-            <section className="flex flex-col max-w-7xl mx-auto px-6">
-                <h3 className="font-bold text-2xl mb-4">GERAÇÕES</h3>
-                <div className="flex gap-5 overflow-auto snap-x snap-mandatory px-8 pb-5" id="ge">
-                    <ButtonGeneration img={"./generation_1.png"} generation={1} clicka={fetchPokemonGeneration} />
-                    <ButtonGeneration img={"./generation_2.png"} generation={2} clicka={fetchPokemonGeneration} />
-                    <ButtonGeneration img={"./generation_3.webp"} generation={3} clicka={fetchPokemonGeneration} />
-                    <ButtonGeneration img={"./generation_4.png"} generation={4} clicka={fetchPokemonGeneration} />
-                    <ButtonGeneration img={"./generation_5.png"} generation={5} clicka={fetchPokemonGeneration} />
-                    <ButtonGeneration img={"./generation_6.png"} generation={6} clicka={fetchPokemonGeneration} />
-                    <ButtonGeneration img={"./generation_7.png"} generation={7} clicka={fetchPokemonGeneration} />
-                    <ButtonGeneration img={"./generation_8.png"} generation={8} clicka={fetchPokemonGeneration} />
+        <div ref={mainDiv} className={`${darkMode && "dark"}`}>
+            <div className="dark:bg-slate-900">
+                <div className="w-full mx-auto max-w-7xl px-6 mb-8 md:mb-0">
+                    <div className="flex flex-col sm:flex-row items-center ">
+                        <Search searchPokemon={setPokemon} loading={setLoading} />
+                        <SwitchComponent mode={setDarkMode} stats={darkMode}/>
+                    </div>
                 </div>
-            </section>
-
-            <main className=" max-w-7xl mx-auto mt-10 px-6">
-                <span className="text-gray-600 font-bold text-2xl">{generation}° Geração</span>
-                <hr className="border-gray-300 mb-10" />
-                <section className="py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-20 gap-x-5 justify-items-center">
-                    {
-                        loading && <div className="col-span-4">Carregando ...</div>
-                    }
-                    {
-                        pokemon.map((e, key) => {
-                            return <Card namePokemon={e.name} key={key} />
-                        })
-                    }
+                <button
+                    className="w-10 h-10 fixed right-10 bottom-10 z-50 bg-red-400 dark:bg-violet-900 rounded-full flex justify-center items-center text-white"
+                    onClick={() => {
+                        mainDiv.current.scrollIntoView({ behavior: "smooth" })
+                    }}
+                >
+                    <ArrowUp size={32} />
+                </button>
+                <section className="flex flex-col max-w-7xl mx-auto px-6">
+                    <h3 className="font-bold text-2xl mb-4 dark:text-white">GERAÇÕES</h3>
+                    <div className="flex gap-5 overflow-auto snap-x snap-mandatory px-8 pb-5" id="ge">
+                        <ButtonGeneration img={"./generation_1.png"} generation={1} clicka={fetchPokemonGeneration} />
+                        <ButtonGeneration img={"./generation_2.png"} generation={2} clicka={fetchPokemonGeneration} />
+                        <ButtonGeneration img={"./generation_3.webp"} generation={3} clicka={fetchPokemonGeneration} />
+                        <ButtonGeneration img={"./generation_4.png"} generation={4} clicka={fetchPokemonGeneration} />
+                        <ButtonGeneration img={"./generation_5.png"} generation={5} clicka={fetchPokemonGeneration} />
+                        <ButtonGeneration img={"./generation_6.png"} generation={6} clicka={fetchPokemonGeneration} />
+                        <ButtonGeneration img={"./generation_7.png"} generation={7} clicka={fetchPokemonGeneration} />
+                        <ButtonGeneration img={"./generation_8.png"} generation={8} clicka={fetchPokemonGeneration} />
+                    </div>
                 </section>
-                <hr className="border-gray-300" />
-            </main>
+
+                <main className=" max-w-7xl mx-auto mt-10 px-6">
+                    <span className="text-gray-600 font-bold text-2xl dark:text-white">{generation}° Geração</span>
+                    <hr className="border-gray-300 mb-10" />
+                    <section className="py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-20 gap-x-5 justify-items-center">
+                        {
+                            loading && <div className="col-span-4 dark:text-white">Carregando ...</div>
+                        }
+                        {
+                            pokemon.map((e, key) => {
+                                return <Card namePokemon={e.name} key={key} />
+                            })
+                        }
+                    </section>
+                </main>
+                <Footer/>
+            </div>
         </div>
     )
 }

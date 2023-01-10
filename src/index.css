@@ -56,3 +56,12 @@ body{
    border-radius: 10px;
    border: 6px solid rgb(243 244 246);
 }
+.dark #ge::-webkit-scrollbar-thumb {
+   border: 6px solid rgb(15 23 42);;
+}
+.dark #ge:hover::-webkit-scrollbar-thumb{
+   background: #fafafa;
+}
+.dark #ge::-webkit-scrollbar-track {
+   background: rgb(15 23 42);
+}

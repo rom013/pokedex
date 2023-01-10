@@ -100,14 +100,14 @@ export function Card(props){
                                 className="-translate-y-28 z-30 drop-shadow-md md:group-hover:scale-110 transition"
                             />
                         </div>
-                        <div className="min-h-24 bg-white px-6 py-3 flex flex-col justify-between gap-y-2 rounded-b-lg shadow-shadow-card">
+                        <div className="min-h-24 bg-white dark:bg-sky-900 px-6 py-3 flex flex-col justify-between gap-y-2 rounded-b-lg shadow-shadow-card">
                             <div className="flex justify-between items-center">
-                                <span className="text-2xl font-bold capitalize">{valueAPI.name}</span>
-                                <span className="text-gray-400">#{valueAPI.id}</span>
+                                <span className="text-2xl font-bold capitalize dark:text-white">{valueAPI.name}</span>
+                                <span className="text-gray-400 dark:text-white">#{valueAPI.id}</span>
                             </div>
 
                             <div className="flex items-center">
-                                <span>Type: </span>
+                                <span className="dark:text-white">Type: </span>
                                 <div className="flex gap-2 ml-4">
                                     {
                                         valueAPI.type.map((e, key)=>{
@@ -151,7 +151,7 @@ export function Search(props){
             <div className="flex">
                 <input 
                     type="text" 
-                    className={`px-4 py-3 md:w-96 border-gray-400 rounded-tl-lg rounded-bl-lg focus:outline-none border ${searchError ? "border-red-600 bg-red-200" : "border-transparent bg-white"}`}
+                    className={`px-4 py-3 md:w-96 border-gray-400 rounded-tl-lg rounded-bl-lg focus:outline-none border dark:bg-slate-800 dark:text-white ${searchError ? "border-red-600 bg-red-200" : "border-transparent bg-white"}`}
                     onChange={(e)=>{setPokemon(e.target.value.toLowerCase())}}
                     onKeyUp={(e)=>{e.key === 'Enter' && searchPokemon()}}
                     value={pokemon}
